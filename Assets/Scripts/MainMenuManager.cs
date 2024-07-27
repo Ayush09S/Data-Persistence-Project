@@ -7,9 +7,10 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public TMP_Text NameText;
-    public TMP_Text RecentScoreText;
-    public TMP_Text HighScoreText;
+    public TMP_Text nameText;
+    public TMP_InputField nameInput;
+    public TMP_Text recentScoreText;
+    public TMP_Text highScoreText;
 
     // Start is called before the first frame update
     void Start()
