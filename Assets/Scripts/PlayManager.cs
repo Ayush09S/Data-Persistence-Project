@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class PlayManager : MonoBehaviour
 {
+    public PersistenceScript persistenceScript;
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
-    public Text ScoreText;
+    public Text highScoreText;
+    public Text currentScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -21,6 +24,8 @@ public class PlayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        highScoreText.text = persistenceScript.savedHighScoreName + persistenceScript.savedHighScore;
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -64,7 +69,7 @@ public class PlayManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        currentScoreText.text = $"Score : {m_Points}";
     }
 
     public void LoadMainGame()

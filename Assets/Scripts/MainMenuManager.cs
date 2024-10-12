@@ -7,28 +7,18 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public TMP_Text nameText;
-    public TMP_InputField nameInput; // Use to save name for score in Persistence Script
-    public TMP_Text recentScoreText;
-    public TMP_Text highScoreText;
+    public PersistenceScript persistenceScript;
 
-    public int recentScore;
-    public int highScore;
+    public TMP_InputField nameInput; // Saves user's name in Persistence Script
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TMP_Text recentScoreText; // Recent Score Visual Text
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public TMP_Text highScoreText; // High Score Visual Text
 
     public void StartGame()
     {
+        Debug.Log("Button Clicked");
+        persistenceScript.savedCurrentName = nameInput.text;
         SceneManager.LoadScene(1);
     }
 }
