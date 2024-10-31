@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class PlayManager : MonoBehaviour
 {
-    public PersistenceScript persistenceScript;
-
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -17,15 +15,17 @@ public class PlayManager : MonoBehaviour
     public GameObject GameOverText;
     
     private bool m_Started = false;
-    private int m_Points;
+    private int currentScore;
     
     private bool m_GameOver = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        highScoreText.text = persistenceScript.savedHighScoreName + persistenceScript.savedHighScore;
-
+        if (PersistenceScript.instance.savedHighScore != 0)
+        {
+            highScoreText.text = $"{PersistenceScript.instance.savedHighScoreName}: {PersistenceScript.instance.savedHighScore}";
+        }
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -68,8 +68,8 @@ public class PlayManager : MonoBehaviour
 
     void AddPoint(int point)
     {
-        m_Points += point;
-        currentScoreText.text = $"Score : {m_Points}";
+        currentScore += point;
+        currentScoreText.text = $"Score : {currentScore}";
     }
 
     public void LoadMainGame()
@@ -81,5 +81,14 @@ public class PlayManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        PersistenceScript.instance.savedRecentScoreName = PersistenceScript.instance.savedCurrentName;
+        PersistenceScript.instance.savedRecentScore = currentScore; 
+
+        if (currentScore > PersistenceScript.instance.savedHighScore) 
+        {
+            PersistenceScript.instance.savedHighScoreName = PersistenceScript.instance.savedCurrentName;
+            PersistenceScript.instance.savedHighScore = currentScore;
+        }
     }
 }

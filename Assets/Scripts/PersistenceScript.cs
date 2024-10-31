@@ -12,9 +12,12 @@ public class PersistenceScript : MonoBehaviour
    // public Button startButton;
 
     public string savedCurrentName; // Current User's Name
-    public int savedCurrentScore;
+    public int savedCurrentScore; 
 
-    public string savedHighScoreName; // High Score Holder's Name
+    public string savedRecentScoreName; // Recent Player's Name
+    public int savedRecentScore;
+
+    public string savedHighScoreName; // High Score Player's Name
     public int savedHighScore; 
 
     // Start is called before the first frame update
@@ -34,13 +37,6 @@ public class PersistenceScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if(startButton.onClick())
-        {
-            Debug.Log("Persistance Script Active During Game");
-            Debug.Log($"Name: {savedCurrentName}");
-
-        }
-        */
+    
     }
 }
