@@ -24,7 +24,7 @@ public class PlayManager : MonoBehaviour
     {
         if (PersistenceScript.instance.savedHighScore != 0)
         {
-            highScoreText.text = $"{PersistenceScript.instance.savedHighScoreName}: {PersistenceScript.instance.savedHighScore}";
+            highScoreText.text = $"{PersistenceScript.instance.savedHighName}: {PersistenceScript.instance.savedHighScore}";
         }
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -82,12 +82,12 @@ public class PlayManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
 
-        PersistenceScript.instance.savedRecentScoreName = PersistenceScript.instance.savedCurrentName;
+        PersistenceScript.instance.savedRecentName = PersistenceScript.instance.savedCurrentName;
         PersistenceScript.instance.savedRecentScore = currentScore; 
 
         if (currentScore > PersistenceScript.instance.savedHighScore) 
         {
-            PersistenceScript.instance.savedHighScoreName = PersistenceScript.instance.savedCurrentName;
+            PersistenceScript.instance.savedHighName = PersistenceScript.instance.savedCurrentName;
             PersistenceScript.instance.savedHighScore = currentScore;
         }
     }
