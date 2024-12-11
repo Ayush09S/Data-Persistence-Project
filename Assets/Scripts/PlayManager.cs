@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlayManager : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class PlayManager : MonoBehaviour
     public Text highScoreText;
     public Text currentScoreText;
     public GameObject GameOverText;
-    
+    public GameObject GameWonText;
+
+    public GameObject blurGame;
+    public GameObject BricksParent;
+
     private bool m_Started = false;
     private int currentScore;
-    
+
     private bool m_GameOver = false;
 
     // Start is called before the first frame update
@@ -28,8 +33,8 @@ public class PlayManager : MonoBehaviour
         }
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -59,10 +64,15 @@ public class PlayManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene(0);
-            }
+            RestartGame();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && !GameWon() && !GameOverText.activeSelf)
+        {
+            PauseGame();
+        }
+        if (GameWon())
+        { 
+            RestartGame();// Checks if all bricks are destroyed and ends the game
         }
     }
 
@@ -77,18 +87,55 @@ public class PlayManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void PauseGame()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
+        blurGame.gameObject.SetActive(!blurGame.activeSelf);
+    }
+
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
 
         PersistenceScript.instance.savedRecentName = PersistenceScript.instance.savedCurrentName;
-        PersistenceScript.instance.savedRecentScore = currentScore; 
+        PersistenceScript.instance.savedRecentScore = currentScore;
 
-        if (currentScore > PersistenceScript.instance.savedHighScore) 
+        if (currentScore > PersistenceScript.instance.savedHighScore)
         {
             PersistenceScript.instance.savedHighName = PersistenceScript.instance.savedCurrentName;
             PersistenceScript.instance.savedHighScore = currentScore;
+        }
+    }
+
+    public bool GameWon()
+    {
+        Brick[] remainingBricks = FindObjectsOfType<Brick>();
+
+        if (remainingBricks.Length == 0)
+        {
+            GameWonText.SetActive(true);
+            Time.timeScale = 0;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    public void RestartGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }
