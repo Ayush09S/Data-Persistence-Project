@@ -4,16 +4,21 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditorInternal;
 
 public class MainMenuManager : MonoBehaviour
 {
     public TMP_InputField nameInput; // Saves user's name in Persistence Script
+
+    public GameObject invalidName;
 
     public TMP_Text recentScoreValueText; // Recent Score Visual Text
 
     public TMP_Text highScoreValueText; // High Score Visual Text
 
     public GameObject exitMenu;
+
+    private bool isInvalidNameActive = false;
 
     public void Awake()
     {
@@ -29,9 +34,33 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void Update()
     {
+        // Check if the invalidName message is active and any key is pressed
+        if (isInvalidNameActive && Input.anyKeyDown)
+        {
+            invalidName.gameObject.SetActive(false); // Hide the invalidName message
+            isInvalidNameActive = false; // Reset the flag
+        }
+    }
+
+    public void StartGameAndCheckName()
+    {
+        Debug.Log($"nameInput Text: {nameInput.text}");
         Debug.Log("Button Clicked");
+
+        // Hide the invalidName message if it was previously active
+        invalidName.gameObject.SetActive(false);
+
+        // Check if the name input is empty
+        if (string.IsNullOrWhiteSpace(nameInput.text))
+        {
+            invalidName.gameObject.SetActive(true); // Show the invalid name message
+            isInvalidNameActive = true; // Set the flag
+            return; // Exit the method
+        }
+
+        // Save the name and load the next scene
         PersistenceScript.instance.savedCurrentName = nameInput.text;
         SceneManager.LoadScene(1);
     }
