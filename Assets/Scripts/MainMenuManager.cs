@@ -16,6 +16,9 @@ public class MainMenuManager : MonoBehaviour
 
     public TMP_Text highScoreValueText; // High Score Visual Text
 
+    public GameObject mainMenu;
+    public GameObject recentScoreMenu;
+    public GameObject highScoreMenu;
     public GameObject exitMenu;
 
     private bool isInvalidNameActive = false;
@@ -65,14 +68,24 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void ExitMenu()
+    public void FromOrToRecentScoreMenu()
     {
-        exitMenu.SetActive(true);
+        mainMenu.SetActive(!mainMenu.activeSelf);
+        recentScoreMenu.SetActive(!recentScoreMenu.activeSelf);
     }
-    public void ReturnToMenu()
+
+    public void FromOrToHighScoreMenu() 
     {
-        exitMenu.SetActive(false);
+        mainMenu.SetActive(!mainMenu.activeSelf);
+        highScoreMenu.SetActive(!highScoreMenu.activeSelf);
     }
+
+    public void FromOrToExitMenu()
+    {
+        exitMenu.SetActive(!exitMenu.activeSelf);
+        highScoreMenu.SetActive(!highScoreMenu.activeSelf);
+    }
+
     public void ConfirmedExitGame()
     {
         PersistenceScript.instance.SaveScores();
