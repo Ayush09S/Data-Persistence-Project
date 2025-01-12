@@ -82,8 +82,9 @@ public class MainMenuManager : MonoBehaviour
 
     public void FromOrToExitMenu()
     {
+        mainMenu.SetActive(!mainMenu.activeSelf);
         exitMenu.SetActive(!exitMenu.activeSelf);
-        highScoreMenu.SetActive(!highScoreMenu.activeSelf);
+        Debug.Log($"Exit Menu {exitMenu.activeSelf}");
     }
 
     public void ConfirmedExitGame()
